@@ -5,13 +5,13 @@ interface TodoFormProps {
 }
 
 export default function TodoForm({addTodo}: TodoFormProps){
-    const handleForm = (event) => {
+    const handleForm = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         const formData = new FormData(event.target)
         
         const status = formData.get("status") !== null ? true : false
-        const description = formData.get("description") ?? ''
-        const title = formData.get("title") ?? ''
+        const description = formData.get("description") as FormDataEntryValue as string ?? ''
+        const title = formData.get("title") as FormDataEntryValue as string ?? ''
         const newTodo: Todo = {
             id: +new Date(),
             status,
@@ -39,7 +39,6 @@ export default function TodoForm({addTodo}: TodoFormProps){
               <label htmlFor="description">Description</label>
               <input type="text" id='description' name='description' placeholder='I need to do it before 10:00 p.m.' />
             </div>
-            
 
             <div className='input-wrapper'>
               <label htmlFor="status">

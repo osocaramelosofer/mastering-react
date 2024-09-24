@@ -1,6 +1,6 @@
 import {  useEffect, useState } from 'react';
 import './App.css';
-import { EditTodo, SelectValues, Todo } from './types';
+import { SelectValues, Todo } from './types';
 import TodoForm from './components/todo-form';
 import TodoList from './components/todo-list';
 import { SelectComponent } from './components/select-component';

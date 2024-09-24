@@ -8,17 +8,6 @@ interface TodosLisProps {
     editTodo: (todo:Todo) => void
 }
 
-// interface EditForm {
-//     title: string
-//     description: string
-//     status: boolean
-// }
-// const DEFAULT_EDIT_FORM_STATE: Todo = {
-//     id: 0,
-//     title: 'test',
-//     description: 'test 2',
-//     status: false
-// }
 
 export default function TodoList({todos, deleteTodo, finishTodo, editTodo}: TodosLisProps) {
     const [editingTodos, setEditingTodos] = useState(()=> todos.map(x => ({...x, isEditing: false})))
@@ -47,7 +36,7 @@ export default function TodoList({todos, deleteTodo, finishTodo, editTodo}: Todo
         setEditingTodos(todos.map(x => ({ ...x, isEditing: false })))
     }, [todos])
 
-    if(todos.length <= 0) return <h2>Loading</h2>
+    if(todos.length <= 0) return <h2>no todos yet</h2>
     return(
         <div className='todos-wrapper'>
             <ul>
