@@ -2,9 +2,11 @@ import { Input, Textarea, Tooltip } from '@nextui-org/react'
 import { commentApi } from 'api'
 import { IoSend } from 'react-icons/io5'
 import { IComment } from 'types/comment'
+
 interface CommentFormProps {
   addComment: (comment: IComment) => void
 }
+
 export default function CommentForm({ addComment }: CommentFormProps) {
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -39,6 +41,7 @@ export default function CommentForm({ addComment }: CommentFormProps) {
           name="comment"
           label="Comment:"
           labelPlacement="outside"
+          placeholder="Enter your comment here"
         />
 
         <div className="mr-2 mt-2 flex justify-end">

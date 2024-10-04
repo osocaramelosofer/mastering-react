@@ -4,6 +4,7 @@ import CommentForm from './comment-form'
 import { IComment } from 'types/comment'
 import { Providers } from 'providers'
 import { CommentList } from './comment-list'
+import { Divider } from '@nextui-org/react'
 
 function App() {
   const [comments, setComments] = useState<IComment[]>([])
@@ -36,11 +37,13 @@ function App() {
       <main className="flex size-full flex-col">
         <h1 className="text-center text-4xl font-bold">Leave Comments</h1>
 
-        <section className="mx-auto mt-5 ">
+        <section className="mx-auto ">
           <CommentForm addComment={addComment} />
         </section>
 
-        <section className="mx-auto mt-5">
+        <Divider className="mt-5" />
+        <section className="mx-auto mt-7">
+          <h2 className="mb-4 text-center text-2xl font-bold">Comment list</h2>
           <CommentList
             comments={comments}
             handleDelete={handleDelete}

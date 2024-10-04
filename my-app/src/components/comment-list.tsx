@@ -3,6 +3,7 @@ import { commentApi } from 'api'
 import { useEffect, useState } from 'react'
 import { IoSend } from 'react-icons/io5'
 import { EditableComment, IComment } from 'types/comment'
+import { CommentComponent } from './comment-component'
 
 interface CommentListProps {
   comments: IComment[]
@@ -27,7 +28,7 @@ export function CommentList({
     setEditableComments(transformedComments)
   }, [comments])
 
-  const handleEdit = (id: string) => {
+  const enableEditing = (id: string) => {
     const newComments = editableComments.map((comment) =>
       comment.id === id ? { ...comment, editing: !comment.editing } : comment
     )
@@ -52,50 +53,22 @@ export function CommentList({
   }
   return (
     <ul className="min-w-[300px] rounded-md">
-      {editableComments &&
-        editableComments.map(({ id, email, comment, editing }) => {
+      {editableComments && editableComments.length > 0 ? (
+        editableComments.map((currentComment) => {
           return (
-            <li key={id} className="mb-2 flex w-full gap-2">
-              <div className="w-full">
-                <Textarea
-                  label={email}
-                  isDisabled={!editing}
-                  variant="bordered"
-                  labelPlacement="inside"
-                  value={comment}
-                  onValueChange={(value) => editingComment(value, id)}
-                  className=""
-                />
-                <div className="ml-2 flex items-center gap-2">
-                  <Tooltip content="Delete the comment">
-                    <span
-                      onClick={() => handleDelete(id)}
-                      className="m-0 flex items-center border-b-2 border-transparent p-0 text-[10px] font-bold text-stone-500 hover:cursor-pointer hover:border-stone-500"
-                    >
-                      delete
-                    </span>
-                  </Tooltip>
-                  <Tooltip content="Enable the edition of the comment">
-                    <span
-                      onClick={() => handleEdit(id)}
-                      className="m-0 flex items-center border-b-2 border-transparent p-0 text-[10px] font-bold text-stone-500 hover:cursor-pointer hover:border-stone-500"
-                    >
-                      edit
-                    </span>
-                  </Tooltip>
-                  <Tooltip content="update comment">
-                    <button
-                      className={`${editing ? 'block' : 'hidden'} `}
-                      onClick={() => updateComment({ id, email, comment })}
-                    >
-                      <IoSend size={10} className="text-sky-600" />
-                    </button>
-                  </Tooltip>
-                </div>
-              </div>
-            </li>
+            <CommentComponent
+              key={currentComment.id}
+              editingComment={editingComment}
+              handleDelete={handleDelete}
+              enableEditing={enableEditing}
+              updateComment={updateComment}
+              currentComment={currentComment}
+            />
           )
-        })}
+        })
+      ) : (
+        <span>no comments yet</span>
+      )}
     </ul>
   )
 }
