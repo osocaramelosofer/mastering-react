@@ -1,13 +1,11 @@
 import { Input, Textarea, Tooltip } from '@nextui-org/react'
 import { commentApi } from 'api'
+import { useCommentContext } from 'hooks/useCommentContext'
 import { IoSend } from 'react-icons/io5'
-import { IComment } from 'types/comment'
 
-interface CommentFormProps {
-  addComment: (comment: IComment) => void
-}
+export default function CommentForm() {
+  const { addComment } = useCommentContext()
 
-export default function CommentForm({ addComment }: CommentFormProps) {
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const form = event.target as HTMLFormElement
@@ -17,10 +15,15 @@ export default function CommentForm({ addComment }: CommentFormProps) {
     const comment =
       (formData.get('comment') as FormDataEntryValue as string) ?? ''
 
+    if (email === '' && comment === '') {
+      alert('you must enter an email and your comment')
+      return
+    }
+
     const commentCreated = await commentApi.postComment(email, comment)
     if (commentCreated) {
       addComment(commentCreated)
-      alert(`todo  created successfully `)
+      alert(`todo created successfully`)
       form.reset()
     }
   }
@@ -34,6 +37,7 @@ export default function CommentForm({ addComment }: CommentFormProps) {
           id="email"
           name="email"
           labelPlacement="outside"
+          required
         />
 
         <Textarea
@@ -42,6 +46,7 @@ export default function CommentForm({ addComment }: CommentFormProps) {
           label="Comment:"
           labelPlacement="outside"
           placeholder="Enter your comment here"
+          required
         />
 
         <div className="mr-2 mt-2 flex justify-end">

@@ -1,10 +1,10 @@
 import { Textarea, Tooltip } from '@nextui-org/react'
+import { useCommentContext } from 'hooks/useCommentContext'
 import { IoSend } from 'react-icons/io5'
 import { EditableComment, IComment } from 'types/comment'
 
 interface CommentComponentProps {
   editingComment: (value: string, id: string) => void
-  handleDelete: (id: string) => void
   enableEditing: (id: string) => void
   updateComment: (comment: IComment) => void
   currentComment: EditableComment
@@ -12,23 +12,22 @@ interface CommentComponentProps {
 
 export function CommentComponent({
   editingComment,
-  handleDelete,
   enableEditing,
   updateComment,
   currentComment
 }: CommentComponentProps) {
   const { id, email, editing, comment } = currentComment
+  const { handleDelete } = useCommentContext()
   return (
     <li className="mb-2 flex w-full gap-2">
       <div className="w-full">
         <Textarea
           label={email}
           isDisabled={!editing}
-          variant="bordered"
+          variant="flat"
           labelPlacement="inside"
           value={comment}
           onValueChange={(value) => editingComment(value, id)}
-          className=""
         />
         <div className="ml-2 flex items-center gap-2 pt-1">
           <Tooltip content="Delete the comment">
