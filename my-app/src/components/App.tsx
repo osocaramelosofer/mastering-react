@@ -1,14 +1,14 @@
 import { commentApi } from 'api'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import CommentForm from './comment-form'
 import { IComment } from 'types/comment'
-import { Providers } from 'providers'
 import { CommentList } from './comment-list'
 import { Divider } from '@nextui-org/react'
+import { useCommentContext } from 'hooks/useCommentContext'
 
 function App() {
-  const [comments, setComments] = useState<IComment[]>([])
-
+  // const [comments, setComments] = useState<IComment[]>([])
+  const { comments, setComments } = useCommentContext()
   const handleDelete = async (id: string) => {
     const { success, message } = await commentApi.deleteComment(id)
     if (!success) alert('We could not delete the todo, try later')
@@ -33,25 +33,23 @@ function App() {
   }, [])
 
   return (
-    <Providers>
-      <main className="flex size-full flex-col">
-        <h1 className="text-center text-4xl font-bold">Leave Comments</h1>
+    <main className="flex size-full flex-col">
+      <h1 className="text-center text-4xl font-bold">Leave Comments</h1>
 
-        <section className="mx-auto ">
-          <CommentForm addComment={addComment} />
-        </section>
+      <section className="mx-auto ">
+        <CommentForm addComment={addComment} />
+      </section>
 
-        <Divider className="mt-5" />
-        <section className="mx-auto mt-7">
-          <h2 className="mb-4 text-center text-2xl font-bold">Comment list</h2>
-          <CommentList
-            comments={comments}
-            handleDelete={handleDelete}
-            setComments={setComments}
-          />
-        </section>
-      </main>
-    </Providers>
+      <Divider className="mt-5" />
+      <section className="mx-auto mt-7">
+        <h2 className="mb-4 text-center text-2xl font-bold">Comment list</h2>
+        <CommentList
+          comments={comments}
+          handleDelete={handleDelete}
+          setComments={setComments}
+        />
+      </section>
+    </main>
   )
 }
 
